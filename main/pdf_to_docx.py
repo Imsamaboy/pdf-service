@@ -154,5 +154,5 @@ def convert_pdf_to_docx(pdf_file: bytes) -> None:
                         print("Something wrong with symbols recognition")
                         print(ex.with_traceback(None))
 
-    os.remove("/static/temp.png")
+    # os.remove("pdf-service/static/temp.png")
     document.save('PDF_TO_DOCX.docx')
