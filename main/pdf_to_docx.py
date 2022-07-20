@@ -8,6 +8,8 @@ import pytesseract
 from docx import Document
 from pdf2image import convert_from_bytes
 
+DEVIATION = 0.0375
+
 
 def read_from_pdf(pdf_file):
     """
@@ -23,9 +25,9 @@ def get_cropped_parts(image_norm: np.array) -> List[np.array]:
     :return: list of crops
     """
     gray = cv.cvtColor(image_norm, cv.COLOR_BGR2GRAY)
-    ret, thresh1 = cv.threshold(gray, 0, 255, cv.THRESH_OTSU | cv.THRESH_BINARY_INV)
+    ret, thresh = cv.threshold(gray, 100, 255, cv.THRESH_OTSU | cv.THRESH_BINARY_INV)
     rect_kernel = cv.getStructuringElement(cv.MORPH_RECT, (18, 18))
-    dilation = cv.dilate(thresh1, rect_kernel, iterations=1)
+    dilation = cv.dilate(thresh, rect_kernel, iterations=1)
     contours, hierarchy = cv.findContours(dilation, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
     cropped_parts = []
     for cnt in contours:
@@ -67,7 +69,7 @@ def find_horizontal(inv_bin_image: np.array) -> List[int]:
     :return:
     """
     return [index for index, line in enumerate(inv_bin_image)
-            if np.count_nonzero(line) >= inv_bin_image.shape[1] - inv_bin_image.shape[1] * 0.0375]
+            if np.count_nonzero(line) >= inv_bin_image.shape[1] - inv_bin_image.shape[1] * DEVIATION]
 
 
 def find_vertical(inv_bin_image: np.array) -> List[int]:
@@ -76,7 +78,7 @@ def find_vertical(inv_bin_image: np.array) -> List[int]:
     :return:
     """
     return [index for index in range(inv_bin_image.shape[1])
-            if np.count_nonzero(inv_bin_image[:, index]) >= inv_bin_image.shape[0] - inv_bin_image.shape[0] * 0.0375]
+            if np.count_nonzero(inv_bin_image[:, index]) >= inv_bin_image.shape[0] - inv_bin_image.shape[0] * DEVIATION]
 
 
 def check_on_table(inv_bin_image: np.array) -> bool:
