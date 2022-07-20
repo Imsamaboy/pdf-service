@@ -29,5 +29,10 @@ def not_found():
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
+@app.errorhandler(500)
+def server_error():
+    return make_response(jsonify({"server error": "Something went wrong..."}), 500)
+
+
 if __name__ == '__main__':
     app.run()
