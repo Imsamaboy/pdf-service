@@ -30,7 +30,7 @@
 - не установлен **Docker**
 - не установлен **docker-compose**
 - вы не залогинены в терминале и надо прописать ```docker login```
-- порты **8080** или **5432** уже находятся в использовании другими сервисами
+- порт **5000** уже находятся в использовании другими сервисами
 - Ошибка рода: ```docker.credentials.errors.StoreError: Credentials store docker-credential-desktop exited with "error listing credentials - err: exit status 1...``` \
 **Решение**: надо зайти в папку ```.docker``` и поменять в файле ```config.json``` поле ```credsStore``` на ```credSstore``` и сохранить изменения и выполнить ещё раз ```docker login```.
 
