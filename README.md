@@ -18,11 +18,21 @@
 Что касается нескольких типов алфавитов, то можно использовать другой движок OCR или другую адаптацию Tesseract для Python.
 
 ### Запуск сервис
+
 **Docker**
-```
-docker build -t pdf-service-image .
-docker run pdf-service-image
-```
+1. Распокавать архив с решением
+2. В корне проекта, где находится файл ```docker-compose.yml``` открыть терминал
+3. в терминале прописать ```docker-compose build --no-cache```
+4. после билда прописать ```docker-compose -f docker-compose.yml up```
+После данных действий всё приложение развернётся на вашей системе и можно будет совершать запросы к сервису по ```http://localhost:8080/wiki/...```
+
+Возможные проблемы при запуске билдов
+- не установлен **Docker**
+- не установлен **docker-compose**
+- вы не залогинены в терминале и надо прописать ```docker login```
+- порты **8080** или **5432** уже находятся в использовании другими сервисами
+- Ошибка рода: ```docker.credentials.errors.StoreError: Credentials store docker-credential-desktop exited with "error listing credentials - err: exit status 1...``` \
+**Решение**: надо зайти в папку ```.docker``` и поменять в файле ```config.json``` поле ```credsStore``` на ```credSstore``` и сохранить изменения и выполнить ещё раз ```docker login```.
 
 **CMD** (нужно иметь Python 3.10 / создать venv)
 

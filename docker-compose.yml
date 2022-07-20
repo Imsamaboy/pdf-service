@@ -1,0 +1,10 @@
+version: "3.3"
+
+services:
+  pdf:
+    container_name: pdf-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
