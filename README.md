@@ -18,13 +18,13 @@
 Что касается нескольких типов алфавитов, то можно использовать другой движок OCR или другую адаптацию Tesseract для Python.
 
 ### Запуск сервис
-1. **Docker**
+**Docker**
 ```
 docker build -t pdf-service-image .
 docker run pdf-service-image
 ```
 
-2. **CMD** (нужно иметь Python 3.10 / создать venv)
+**CMD** (нужно иметь Python 3.10 / создать venv)
 
 В корне проекта прописать:
 ```
