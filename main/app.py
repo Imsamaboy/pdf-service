@@ -11,17 +11,18 @@ from pdf_to_docx import convert_pdf_to_docx
 app = Flask(__name__)
 
 
-@app.route("/convert-pdf", methods=["GET"])
+@app.route("/convert-pdf", methods=["POST"])
 def handle_pdf_file():
     raw_data = flask.request.get_data()
     convert_pdf_to_docx(raw_data)
     if os.path.exists("PDF_TO_DOCX.docx"):
         with open("PDF_TO_DOCX.docx", "rb") as f:
             w = FileWrapper(io.BytesIO(f.read()))
-            return Response(w, mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            return Response(w,
+                            mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                             direct_passthrough=True)
     else:
-        return None
+        return make_response(jsonify({"error": "something wrong with docx file"}), 500)
 
 
 @app.errorhandler(404)
@@ -35,4 +36,4 @@ def server_error():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8080)

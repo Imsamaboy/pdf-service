@@ -98,8 +98,8 @@ def convert_pdf_to_docx(pdf_file: bytes) -> None:
     document.add_heading('PDF_TO_DOCX', 0)
     images = read_from_pdf(pdf_file)
     for img in images:
-        cv.imwrite("static/temp.png", img)
-        osd = pytesseract.image_to_osd("static/temp.png",
+        cv.imwrite("temp.png", img)
+        osd = pytesseract.image_to_osd("temp.png",
                                        config='--psm 0 -c min_characters_to_try=5')
         angle = int(re.search(r'(?<=Rotate: )\d+', osd).group(0))
         match angle:
@@ -147,8 +147,8 @@ def convert_pdf_to_docx(pdf_file: bytes) -> None:
             else:
                 text = pytesseract.image_to_string(crop, lang="rus").strip()
                 if len(re.sub(r"\s+", "", text)) == 0:
-                    cv.imwrite("static/temp.png", crop)
-                    document.add_picture('static/temp.png')
+                    cv.imwrite("temp.png", crop)
+                    document.add_picture('temp.png')
                 else:
                     try:
                         document.add_paragraph(text)

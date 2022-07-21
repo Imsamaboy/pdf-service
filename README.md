@@ -7,7 +7,7 @@
 Сервис может распознать данные в pdf файле и перевести их в новый созданный docx файл.
 
 ### How to use?
-По данному url ```http://localhost:5000/convert-pdf``` можно отправить GET http-запрос с (binary) body в виде исходного pdf файла.
+По данному url ```http://localhost:8080/convert-pdf``` можно отправить POST http-запрос с (binary) body в виде исходного pdf файла.
 
 Сервис обработает данный файл и вернёт docx файл (также, он будет сохранён в корне директории самого проекта).
 
@@ -30,15 +30,23 @@
 - не установлен **Docker**
 - не установлен **docker-compose**
 - вы не залогинены в терминале и надо прописать ```docker login```
-- порт **5000** уже находятся в использовании другими сервисами
+- порт **8080** уже находятся в использовании другими сервисами
 - Ошибка рода: ```docker.credentials.errors.StoreError: Credentials store docker-credential-desktop exited with "error listing credentials - err: exit status 1...``` \
 **Решение**: надо зайти в папку ```.docker``` и поменять в файле ```config.json``` поле ```credsStore``` на ```credSstore``` и сохранить изменения и выполнить ещё раз ```docker login```.
 
 **CMD** (нужно иметь Python 3.10 / создать venv)
 
 В корне проекта прописать:
+(Python)
+```
+sudo apt update
+sudo apt install python3.10
+python3 -m pip install --user virtualenv
+python3 -m venv env
+```
+(Запуск проекта)
 ```
 pip install -r requirements.txt
 cd /main
-python app.py
+python3 app.py
 ```
