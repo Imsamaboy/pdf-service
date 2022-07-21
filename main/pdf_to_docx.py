@@ -117,6 +117,7 @@ def convert_pdf_to_docx(pdf_file: bytes) -> None:
                 image_norm = img
 
         cropped_parts = get_cropped_parts(image_norm)
+        config = r"-l eng+rus"
         for crop in cropped_parts:
             gray = cv.cvtColor(crop, cv.COLOR_BGR2GRAY)
             lines = find_lines(gray)
@@ -136,7 +137,7 @@ def convert_pdf_to_docx(pdf_file: bytes) -> None:
                     for col in range(len(h_borders) - 1):
                         cr = crop[horizontal[h_borders[col]]:horizontal[h_borders[col + 1]],
                                   vertical[v_borders[row]]:vertical[v_borders[row + 1]]]
-                        text = pytesseract.image_to_string(cr, lang="rus").strip()
+                        text = pytesseract.image_to_string(cr, config=config).strip()
                         try:
                             column = table.columns[row].cells
                             column[col].text = text
@@ -145,7 +146,7 @@ def convert_pdf_to_docx(pdf_file: bytes) -> None:
                             print(ex.with_traceback(None))
 
             else:
-                text = pytesseract.image_to_string(crop, lang="rus").strip()
+                text = pytesseract.image_to_string(crop, config=config).strip()
                 if len(re.sub(r"\s+", "", text)) == 0:
                     cv.imwrite("temp.png", crop)
                     document.add_picture('temp.png')
